@@ -29,10 +29,10 @@ const Responses = () => {
 
         setResponses(res.data.responses || []);
         setQuestions(res.data.questions || []);
-        setLoading(false);
       } catch (err) {
         console.error("❌ Error:", err);
         setError("Failed to load responses");
+      } finally {
         setLoading(false);
       }
     };
@@ -41,7 +41,7 @@ const Responses = () => {
   }, [slug]);
 
   const renderChart = (index) => {
-    const mcqAnswers = responses.map((r) => r.answers[index]);
+    const mcqAnswers = responses.map((r) => r.answers?.[index]);
     const frequency = {};
 
     mcqAnswers.forEach((ans) => {
@@ -81,7 +81,9 @@ const Responses = () => {
     if (!responses.length || !questions.length) return;
 
     const headers = questions.map((q) => `"${q.questionText}"`).join(",");
-    const rows = responses.map((r) => r.answers.map((a) => `"${a}"`).join(","));
+    const rows = responses.map((r) =>
+      r.answers.map((a) => `"${a || ""}"`).join(",")
+    );
     const csvContent = [headers, ...rows].join("\n");
 
     const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
@@ -120,27 +122,28 @@ const Responses = () => {
 
           {/* Chart Section */}
           <div className="space-y-8 mb-12">
-            {questions.map((q, qIndex) => (
-              <div key={qIndex} className="bg-gray-50 border p-4 rounded-md">
-                <h4 className="font-semibold mb-2">
-                  Q{qIndex + 1}: {q.questionText}
-                </h4>
+            {Array.isArray(questions) &&
+              questions.map((q, qIndex) => (
+                <div key={qIndex} className="bg-gray-50 border p-4 rounded-md">
+                  <h4 className="font-semibold mb-2">
+                    Q{qIndex + 1}: {q.questionText}
+                  </h4>
 
-                {q.type === "mcq" ? (
-                  renderChart(qIndex)
-                ) : (
-                  <ul className="list-disc list-inside text-gray-700">
-                    {responses.map((r, i) => (
-                      <li key={i}>
-                        {r.answers[qIndex] || (
-                          <span className="text-gray-400">(No answer)</span>
-                        )}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
-            ))}
+                  {q.type === "mcq" ? (
+                    renderChart(qIndex)
+                  ) : (
+                    <ul className="list-disc list-inside text-gray-700">
+                      {responses.map((r, i) => (
+                        <li key={i}>
+                          {r.answers?.[qIndex] || (
+                            <span className="text-gray-400">(No answer)</span>
+                          )}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              ))}
           </div>
 
           {/* Detailed Submissions */}
@@ -161,7 +164,7 @@ const Responses = () => {
                     {r.answers.map((ans, index) => (
                       <li key={index}>
                         <strong>Q{index + 1}:</strong>{" "}
-                        {questions[index]?.questionText || "N/A"}
+                        {questions?.[index]?.questionText || "N/A"}
                         <br />
                         <span className="ml-4 inline-block bg-gray-100 px-2 py-1 rounded text-gray-800">
                           ➡️ <em>{ans || "(No answer)"}</em>
