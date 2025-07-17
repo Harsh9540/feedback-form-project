@@ -55,7 +55,7 @@ const CreateForm = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "/forms",
+        "/api/forms", // ✅ Changed here
         { title, questions },
         {
           headers: {
