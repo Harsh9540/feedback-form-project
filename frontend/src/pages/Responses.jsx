@@ -41,7 +41,10 @@ const Responses = () => {
   }, [slug]);
 
   const renderChart = (index) => {
-    const mcqAnswers = responses.map((r) => r.answers?.[index]);
+    const mcqAnswers = responses.map((r) =>
+      Array.isArray(r.answers) ? r.answers[index] : null
+    );
+
     const frequency = {};
 
     mcqAnswers.forEach((ans) => {
@@ -54,6 +57,12 @@ const Responses = () => {
       name: key,
       value: frequency[key],
     }));
+
+    if (chartData.length === 0) {
+      return (
+        <p className="text-gray-500">No data to display for this question.</p>
+      );
+    }
 
     return (
       <ResponsiveContainer width="100%" height={250}>
