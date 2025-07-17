@@ -46,8 +46,15 @@ const CreateForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (questions.length < 3) {
-      toast.error("Minimum 3 questions required");
+    // ✅ Validate at least 3 valid questions
+    const validQuestions = questions.filter((q) => {
+      if (!q.questionText.trim()) return false;
+      if (q.type === "mcq" && (!q.options || q.options.length === 0)) return false;
+      return true;
+    });
+
+    if (validQuestions.length < 3) {
+      toast.error("Minimum 3 valid questions required (MCQs must have options)");
       return;
     }
 
@@ -55,8 +62,8 @@ const CreateForm = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "/api/forms", // ✅ Changed here
-        { title, questions },
+        "/api/forms",
+        { title, questions: validQuestions },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -100,7 +107,9 @@ const CreateForm = () => {
               type="text"
               placeholder="Enter question text"
               value={q.questionText}
-              onChange={(e) => handleChange(index, "questionText", e.target.value)}
+              onChange={(e) =>
+                handleChange(index, "questionText", e.target.value)
+              }
               required
               className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
@@ -121,7 +130,9 @@ const CreateForm = () => {
                   type="text"
                   value={opt}
                   placeholder={`Option ${oIndex + 1}`}
-                  onChange={(e) => handleOptionChange(index, oIndex, e.target.value)}
+                  onChange={(e) =>
+                    handleOptionChange(index, oIndex, e.target.value)
+                  }
                   required
                   className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none"
                 />
