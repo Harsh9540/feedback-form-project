@@ -24,8 +24,8 @@ const createForm = async (req, res) => {
       slug: newForm.slug,
     });
   } catch (err) {
-    console.error("Create Form Error:", err.message);
-    res.status(500).json({ msg: "Server error" });
+    console.error("❌ Create Form Error:", err.message);
+    res.status(500).json({ msg: "Server error while creating form" });
   }
 };
 
@@ -33,14 +33,14 @@ const createForm = async (req, res) => {
 const getAdminForms = async (req, res) => {
   try {
     const forms = await Form.find({ admin: req.user.id }).sort({ createdAt: -1 });
-    res.status(200).json({ forms });
+    res.status(200).json(forms);
   } catch (err) {
-    console.error("Get Forms Error:", err.message);
-    res.status(500).json({ msg: "Server error" });
+    console.error("❌ Get Forms Error:", err.message);
+    res.status(500).json({ msg: "Server error while fetching forms" });
   }
 };
 
-// ✅ Get a single form by slug
+// ✅ Get a single form by slug (public)
 const getFormBySlug = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -50,10 +50,10 @@ const getFormBySlug = async (req, res) => {
       return res.status(404).json({ msg: "Form not found" });
     }
 
-    res.status(200).json({ form });
+    res.status(200).json(form);
   } catch (err) {
-    console.error("Get Form Error:", err.message);
-    res.status(500).json({ msg: "Server error" });
+    console.error("❌ Get Form Error:", err.message);
+    res.status(500).json({ msg: "Server error while fetching form" });
   }
 };
 
@@ -70,29 +70,31 @@ const deleteForm = async (req, res) => {
 
     res.status(200).json({ msg: "Form deleted successfully" });
   } catch (err) {
-    console.error("Delete Form Error:", err.message);
-    res.status(500).json({ msg: "Server error" });
+    console.error("❌ Delete Form Error:", err.message);
+    res.status(500).json({ msg: "Server error while deleting form" });
   }
 };
 
-// ✅ Submit form response (public access)
+// ✅ Submit response to a form
 const submitResponse = async (req, res) => {
-  const { slug } = req.params;
-  const { answers } = req.body;
-
   try {
+    const { slug } = req.params;
+    const { answers } = req.body;
+
     const form = await Form.findOne({ slug });
 
     if (!form) {
       return res.status(404).json({ msg: "Form not found" });
     }
 
+    if (!form.responses) form.responses = [];
+
     form.responses.push({ answers });
     await form.save();
 
     res.status(200).json({ msg: "Response submitted successfully" });
   } catch (err) {
-    console.error("Submit Response Error:", err.message);
+    console.error("❌ Submit Response Error:", err.message);
     res.status(500).json({ msg: "Server error while submitting response" });
   }
 };
@@ -102,5 +104,5 @@ module.exports = {
   getAdminForms,
   getFormBySlug,
   deleteForm,
-  submitResponse, // ✅ Exported here
+  submitResponse,
 };
