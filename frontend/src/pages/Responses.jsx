@@ -91,7 +91,7 @@ const Responses = () => {
 
     const headers = questions.map((q) => `"${q.questionText}"`).join(",");
     const rows = responses.map((r) =>
-      r.answers.map((a) => `"${a || ""}"`).join(",")
+      r.answers?.map((a) => `"${a || ""}"`).join(",")
     );
     const csvContent = [headers, ...rows].join("\n");
 
@@ -170,7 +170,7 @@ const Responses = () => {
                     Response #{i + 1}
                   </h4>
                   <ul className="space-y-2 text-gray-700">
-                    {r.answers.map((ans, index) => (
+                    {r.answers?.map((ans, index) => (
                       <li key={index}>
                         <strong>Q{index + 1}:</strong>{" "}
                         {questions?.[index]?.questionText || "N/A"}

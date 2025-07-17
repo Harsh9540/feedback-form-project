@@ -15,24 +15,25 @@ const Dashboard = () => {
     const fetchForms = async () => {
       try {
         const token = localStorage.getItem("token");
-
         const res = await axios.get("/forms/admin", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
 
-        setForms(res.data.forms);
+        // ✅ Ensure res.data is valid
+        const fetchedForms = Array.isArray(res.data) ? res.data : res.data.forms || [];
+        setForms(fetchedForms);
       } catch (err) {
         console.error("❌ Error fetching forms:", err);
         setError("Failed to fetch forms");
+        setForms([]); // fallback to prevent undefined
       }
     };
 
     fetchForms();
   }, []);
 
-  // ✅ DELETE handler
   const handleDelete = async (slug) => {
     const confirmDelete = window.confirm("Are you sure you want to delete this form?");
     if (!confirmDelete) return;
@@ -56,7 +57,7 @@ const Dashboard = () => {
   return (
     <div className="p-6 min-h-screen bg-gray-100">
       {/* Header */}
-      {forms.length > 0 && (
+      {forms?.length > 0 && (
         <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
             👋 Welcome back,{" "}
@@ -71,15 +72,13 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Error Message */}
       {error && (
         <div className="text-red-600 bg-red-100 border border-red-300 p-3 rounded mb-4">
           {error}
         </div>
       )}
 
-      {/* Form List */}
-      {forms.length === 0 ? (
+      {forms?.length === 0 ? (
         <div className="flex flex-col items-center mt-16 text-center">
           <img
             src={noFormsImg}
@@ -125,7 +124,6 @@ const Dashboard = () => {
                 </a>
               </p>
 
-              {/* Copy Link */}
               <button
                 onClick={() => {
                   navigator.clipboard.writeText(
@@ -138,7 +136,6 @@ const Dashboard = () => {
                 📋 Copy Public Link
               </button>
 
-              {/* View Responses */}
               <button
                 className="w-full px-4 py-2 text-sm bg-blue-600 text-white rounded hover:bg-blue-700 transition mb-2"
                 onClick={() => navigate(`/responses/${form.slug}`)}
@@ -146,7 +143,6 @@ const Dashboard = () => {
                 📥 View Responses
               </button>
 
-              {/* Delete Form */}
               <button
                 onClick={() => handleDelete(form.slug)}
                 className="w-full px-4 py-2 text-sm bg-red-600 text-white rounded hover:bg-red-700 transition"

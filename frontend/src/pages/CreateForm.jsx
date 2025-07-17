@@ -62,7 +62,7 @@ const CreateForm = () => {
       const token = localStorage.getItem("token");
 
       const res = await axios.post(
-        "/api/forms",
+        "/forms",
         { title, questions: validQuestions },
         {
           headers: {
