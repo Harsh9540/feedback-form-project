@@ -19,7 +19,7 @@ const Login = () => {
     setError("");
 
     try {
-      const res = await axios.post("/api/auth/login", form);
+      const res = await axios.post("/auth/login", form);
       toast.success("Login successful!");
       const { user, token } = res.data;
       login(user, token);
