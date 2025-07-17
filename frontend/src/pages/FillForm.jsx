@@ -36,6 +36,9 @@ const FillForm = () => {
       await axios.post(`/responses/${slug}`, { answers });
       setMsg("Feedback submitted successfully!");
       toast.success("Feedback submitted successfully!");
+      setTimeout(() => {
+        window.location.href = "/thank-you";
+      }, 1000);
     } catch (err) {
       setError("Failed to submit feedback");
       toast.error("Failed to submit feedback");

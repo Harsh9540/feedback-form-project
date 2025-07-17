@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import FillForm from "./pages/FillForm";
 import Responses from "./pages/Responses";
 import CreateForm from "./pages/CreateForm";
+import ThankYou from "./pages/ThankYou";
 
 
 const App = () => {
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/form/:slug" element={<FillForm />} />
           <Route path="/responses/:slug" element={<Responses />} />
           <Route path="/create-form" element={<CreateForm />} />
+          <Route path="/thank-you" element={<ThankYou />} />
         {/* Baad me: dashboard, form-create, public-form routes yahan add karenge */}
       </Routes>
     </Router>
