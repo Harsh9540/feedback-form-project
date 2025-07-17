@@ -13,6 +13,9 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
+    console.log("🌐 API Base URL:", import.meta.env.VITE_API_URL);
+console.log("Registering:", form);
+
     e.preventDefault();
     setError("");
 
@@ -32,6 +35,8 @@ const Register = () => {
       setError(err.response?.data?.msg || "Registration failed");
     }
   };
+  
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
@@ -94,6 +99,7 @@ const Register = () => {
           </span>
         </p>
       </form>
+
     </div>
   );
 };
