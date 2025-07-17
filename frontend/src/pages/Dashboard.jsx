@@ -16,7 +16,7 @@ const Dashboard = () => {
       try {
         const token = localStorage.getItem("token");
 
-        const res = await axios.get("/api/forms/admin", {
+        const res = await axios.get("/forms/admin", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
