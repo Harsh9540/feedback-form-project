@@ -23,7 +23,7 @@ console.log("Registering:", form);
       console.log("Registering:", form); // ✅ Console me form data aa raha hai
 
       // 🔥 API call here
-      const res = await axios.post("/auth/register", form);
+      const res = await axios.post("/api/auth/register", form);
       toast.success("Registered successfully!");
       console.log("✅ Registration success:", res.data);
 
