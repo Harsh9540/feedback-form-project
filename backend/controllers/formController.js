@@ -33,14 +33,14 @@ const createForm = async (req, res) => {
 const getAdminForms = async (req, res) => {
   try {
     const forms = await Form.find({ admin: req.user.id }).sort({ createdAt: -1 });
-    res.status(200).json(forms);
+    res.status(200).json({ forms });
   } catch (err) {
     console.error("❌ Get Forms Error:", err.message);
     res.status(500).json({ msg: "Server error while fetching forms" });
   }
 };
 
-// ✅ Get a single form by slug (public)
+// ✅ FIXED: Get a single form by slug (for public link)
 const getFormBySlug = async (req, res) => {
   try {
     const slug = req.params.slug;
@@ -50,7 +50,8 @@ const getFormBySlug = async (req, res) => {
       return res.status(404).json({ msg: "Form not found" });
     }
 
-    res.status(200).json(form);
+    // ✅ Yeh wrap kiya — frontend expect kar raha tha { form: ... }
+    res.status(200).json({ form });
   } catch (err) {
     console.error("❌ Get Form Error:", err.message);
     res.status(500).json({ msg: "Server error while fetching form" });
