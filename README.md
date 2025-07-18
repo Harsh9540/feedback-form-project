@@ -137,7 +137,7 @@ npm run dev
 
 ### ❌ No Form Created
 
-![No Form Created](./frontend/public/NO-form-created.png)
+![No Form Created](./frontend/public/No-form-created.png)
 
 ### 🛠️ Create Form
 
