@@ -32,7 +32,7 @@ const Home = () => {
           </motion.h2>
 
           <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-            <span className="font-semibold">Feedbackify</span> helps you
+            <span className="font-semibold">FeedStack</span> helps you
             <span className="text-purple-600 font-semibold"> create</span>,
             <span className="text-blue-600 font-semibold"> share</span>, and
             <span className="text-green-600 font-semibold"> visualize</span> feedback effortlessly.
