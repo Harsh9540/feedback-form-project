@@ -9,12 +9,12 @@ const ThankYou = () => {
         <p className="text-gray-600 text-lg mb-6">
           Your feedback has been submitted successfully.
         </p>
-        {/* <Link
+        <Link
           to="/"
           className="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition"
         >
           Go to Homepage
-        </Link> */}
+        </Link>
       </div>
     </div>
   );

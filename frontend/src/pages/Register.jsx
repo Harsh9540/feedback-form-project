@@ -13,93 +13,82 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    console.log("🌐 API Base URL:", import.meta.env.VITE_API_URL);
-console.log("Registering:", form);
-
     e.preventDefault();
     setError("");
 
     try {
-      console.log("Registering:", form); // ✅ Console me form data aa raha hai
-
-      // 🔥 API call here
       const res = await axios.post("/auth/register", form);
       toast.success("Registered successfully!");
-      console.log("✅ Registration success:", res.data);
-
-      // ✅ Redirect to login page
       navigate("/login");
     } catch (err) {
       toast.error("Registration failed");
-      console.error("❌ Register error:", err.response?.data?.msg || err.message);
       setError(err.response?.data?.msg || "Registration failed");
     }
   };
-  
-
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 px-4">
       <form
         onSubmit={handleSubmit}
-        className="bg-white shadow-lg rounded-xl p-8 w-full max-w-md"
+        className="bg-white shadow-2xl rounded-2xl px-10 py-8 w-full max-w-md animate-fadeIn"
       >
-        <h2 className="text-2xl font-bold text-center mb-6 text-gray-800">
+        <h2 className="text-3xl font-bold text-center mb-8 text-gray-800 tracking-tight">
           Admin Register
         </h2>
 
         {error && (
-          <div className="text-red-500 text-sm mb-4 text-center">{error}</div>
+          <div className="text-red-500 text-sm mb-4 text-center font-medium">
+            {error}
+          </div>
         )}
 
         <input
           type="text"
           name="name"
-          placeholder="Name"
+          placeholder="Enter your name"
           value={form.name}
           onChange={handleChange}
           required
-          className="w-full mb-4 px-4 py-2 border rounded-md"
+          className="w-full mb-5 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
 
         <input
           type="email"
           name="email"
-          placeholder="Email"
+          placeholder="Enter your email"
           value={form.email}
           onChange={handleChange}
           required
-          className="w-full mb-4 px-4 py-2 border rounded-md"
+          className="w-full mb-5 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
 
         <input
           type="password"
           name="password"
-          placeholder="Password"
+          placeholder="Create a password"
           value={form.password}
           onChange={handleChange}
           required
-          className="w-full mb-6 px-4 py-2 border rounded-md"
+          className="w-full mb-6 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-200"
         />
 
         <button
           type="submit"
-          className="w-full bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-700 transition"
+          className="w-full bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 text-white font-semibold py-2 rounded-lg shadow-md transition duration-300"
         >
           Register
         </button>
 
-        <p className="mt-4 text-sm text-center text-gray-500">
+        <p className="text-sm text-center mt-6 text-gray-500">
           Already have an account?{" "}
           <span
-            className="text-blue-600 hover:underline cursor-pointer"
+            className="text-blue-600 hover:underline font-medium cursor-pointer"
             onClick={() => navigate("/login")}
           >
             Login here
           </span>
         </p>
       </form>
-
     </div>
   );
 };
