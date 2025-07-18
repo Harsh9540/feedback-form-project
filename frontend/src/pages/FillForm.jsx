@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import axios from "../api/axios";
 import toast from "react-hot-toast";
 
 const FillForm = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
+
   const [form, setForm] = useState(null);
   const [answers, setAnswers] = useState([]);
-  const [msg, setMsg] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -34,8 +35,12 @@ const FillForm = () => {
     e.preventDefault();
     try {
       await axios.post(`/responses/${slug}`, { answers });
-      setMsg("Thank you for your feedback!");
       toast.success("Submitted Successfully");
+
+      // ✅ Redirect to thank you page after 1 second
+      setTimeout(() => {
+        navigate("/thank-you");
+      }, 1000);
     } catch (err) {
       toast.error("Failed to submit response");
     }
@@ -47,16 +52,22 @@ const FillForm = () => {
   return (
     <div className="min-h-screen bg-[#f6f3fc] py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto">
+        {/* Form Title Block */}
         <div className="bg-white rounded-t-xl border-t-8 border-[#673AB7] p-6 shadow-md mb-3">
           <h2 className="text-3xl font-bold text-gray-900">{form.title}</h2>
         </div>
+
+        {/* Form Fields */}
         <form onSubmit={handleSubmit} className="space-y-6">
           {form.questions.map((q, idx) => (
-            <div key={idx} className="bg-white shadow-md p-5 rounded-md border border-gray-200">
+            <div
+              key={idx}
+              className="bg-white shadow-md p-5 rounded-md border border-gray-200"
+            >
               <label className="block text-gray-900 font-semibold mb-2">
-                {q.questionText} {" "}
-                <span className="text-red-500">*</span>
+                {q.questionText} <span className="text-red-500">*</span>
               </label>
+
               {q.type === "text" ? (
                 <input
                   type="text"
@@ -89,16 +100,13 @@ const FillForm = () => {
             </div>
           ))}
 
+          {/* Submit Button */}
           <button
             type="submit"
             className="w-full bg-[#673AB7] text-white font-semibold py-3 rounded-md hover:bg-[#5e35b1] transition duration-200"
           >
             Submit
           </button>
-
-          {msg && (
-            <p className="text-center text-green-600 font-medium mt-4">{msg}</p>
-          )}
         </form>
       </div>
     </div>

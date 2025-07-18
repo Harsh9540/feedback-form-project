@@ -22,7 +22,7 @@ const App = () => {
           <Route path="/responses/:slug" element={<Responses />} />
           <Route path="/create-form" element={<CreateForm />} />
           <Route path="/thank-you" element={<ThankYou />} />
-        {/* Baad me: dashboard, form-create, public-form routes yahan add karenge */}
+        
       </Routes>
     </Router>
   );

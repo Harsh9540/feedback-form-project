@@ -9,7 +9,7 @@ const Home = () => {
       <nav className="bg-white shadow-md py-4 sticky top-0 z-50">
         <div className="container mx-auto flex justify-center items-center">
           <h1 className="text-3xl font-bold text-purple-700 tracking-wide">
-            <span className="text-blue-600">📋</span> Feedbackify
+            <span className="text-blue-600">📋</span> FeedStack
           </h1>
         </div>
       </nav>
@@ -28,11 +28,11 @@ const Home = () => {
             transition={{ delay: 0.3, duration: 0.5 }}
             className="text-4xl font-extrabold text-gray-800 mb-4"
           >
-            Discover Simpler Feedback 🚀
+            Built for Effortless Feedback 🚀
           </motion.h2>
 
           <p className="text-gray-600 text-lg mb-6 leading-relaxed">
-            Say goodbye to cluttered feedback tools. <span className="font-semibold">Feedbackify</span> helps you
+            <span className="font-semibold">Feedbackify</span> helps you
             <span className="text-purple-600 font-semibold"> create</span>,
             <span className="text-blue-600 font-semibold"> share</span>, and
             <span className="text-green-600 font-semibold"> visualize</span> feedback effortlessly.
@@ -44,10 +44,10 @@ const Home = () => {
             transition={{ delay: 0.5, duration: 0.5 }}
             className="text-left text-gray-700 mb-6 space-y-2 max-w-lg mx-auto"
           >
-            <li>✅ Instant form creation for feedback collection</li>
-            <li>📊 Real-time response analytics with charts</li>
+            <li>✅ Quick form creation for feedback</li>
+            <li>📊 Real-time feedback charts</li>
             <li>🔗 Shareable public form links</li>
-            <li>🛡️ Fully responsive, secure, and mobile-ready</li>
+            <li>🛡️ Mobile-friendly, safe & responsive</li>
           </motion.ul>
 
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
